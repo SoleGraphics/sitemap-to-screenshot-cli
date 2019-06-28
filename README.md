@@ -2,14 +2,21 @@
 
 A little node-based CLI tool for generating screenshots, provided a valid sitemap.xml url
 
-## Getting started
+## Installation
+We recommend global installation, but you can use it however you'd like.
 
-TODO.
+```
+yarn global add sitemap-to-screenshot-cli
+```
+
+```
+npm install -g sitemap-to-screenshot-cli
+```
 
 ## Usage
 
 ```
-./bin/generate.sh --url=<URL_TO_SITEMAP>
+sm2ss --url=<URL_TO_SITEMAP>
 ```
 
 #### The following options are supported:
