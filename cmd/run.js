@@ -8,7 +8,7 @@ module.exports = (commandArgs) => {
     url: false,                 // URL to sitemap.xml file
     vw: 1366,                   // Browser viewport width
     vh: 768,                    // Browser viewport height
-    dir: './storage',           // Output directory for saved files
+    dir: './',                  // Output directory for saved files
     timeout: 60000,             // 60 seconds
     format: 'pdf',              // Image format
     heightBuffer: 0,            // Buffer page height

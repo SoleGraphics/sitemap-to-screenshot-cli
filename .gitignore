@@ -3,7 +3,3 @@
 
 # Application
 node_modules
-
-# File storage system
-storage/*
-!storage/.gitkeep
