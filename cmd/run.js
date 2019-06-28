@@ -1,6 +1,7 @@
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 const sitemaps = require('sitemap-stream-parser');
+const { urlToFilename, urlToDomain } = require('../lib/url');
 
 module.exports = (commandArgs) => {
   // Default arguments
@@ -30,9 +31,9 @@ module.exports = (commandArgs) => {
 
   // Holders
   const allUrls = [];
-  const timestamp = Date.now();
-  const storageDir = `${args['dir']}/sm2ss-${timestamp}`;
   const url = args['url'];
+  const timestamp = Date.now();
+  const storageDir = `${args['dir']}/${urlToDomain(url)}-${timestamp}`;
 
   // Ensure we have a url
   if (!url) {
@@ -56,13 +57,7 @@ module.exports = (commandArgs) => {
   });
 
   async function createPDF(url) {
-    let niceName = url;
-    niceName = niceName.split('//')[1];         // Get rid of protocol
-    niceName = niceName.replace(/\/$/, '');     // Remove trailing slash
-    niceName = niceName.replace(/\//g, '__');   // Replace forward slashes with double underscore
-    niceName = niceName.replace('www.', '');    // Replace www
-    niceName = niceName.replace(/\./g, '_');    // Replace periods with underscore
-
+    const niceName = urlToFilename(url);
     const outputPath = `${storageDir}/${niceName}`;
 
     // Let's capture the screen grab
