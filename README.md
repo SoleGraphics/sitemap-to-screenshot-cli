@@ -32,3 +32,4 @@ sm2ss --url=<URL_TO_SITEMAP>
 |heightBuffer|`0`||`int`|Add additional fixed height to the capture|
 |delay|`0`||`int`|Delay between loading the page and capturing the screenshot|
 |waitUntil|`networkidle2`||`string`|Wait until there is only X active network connections|
+|preset|`null`||`string`|Path to a valid `json` file with options. See `example-preset.json`|
