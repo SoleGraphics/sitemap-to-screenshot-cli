@@ -31,7 +31,7 @@ module.exports = (commandArgs) => {
   // Holders
   const allUrls = [];
   const timestamp = Date.now();
-  const storageDir = `${args['dir']}/${timestamp}`;
+  const storageDir = `${args['dir']}/sm2ss-${timestamp}`;
   const url = args['url'];
 
   // Ensure we have a url
