@@ -1,10 +1,26 @@
 {
   "name": "sitemap-to-screenshot-cli",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "description": "A little node-based CLI tool for generating screenshots, provided a valid sitemap.xml url",
   "license": "MIT",
+  "homepage": "https://github.com/SoleGraphics/sitemap-to-screenshot-cli",
   "bin": {
-    "generate": "bin/generate.sh"
+    "sm2ss": "bin/generate.sh"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoleGraphics/sitemap-to-screenshot-cli.git"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "keywords": [
+    "sitemap",
+    "puppeteer",
+    "pdf",
+    "screenshot"
+  ],
+  "preferGlobal": true,
   "scripts": {},
   "devDependencies": {},
   "dependencies": {
