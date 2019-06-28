@@ -26,7 +26,7 @@ sm2ss --url=<URL_TO_SITEMAP>
 |url||`yes`|`string`|Url to a valid xml sitemap|
 |vw|`1366`||`int`|Viewport width|
 |vh|`768`||`int`|Viewport height|
-|dir|`./storage/`||`string`|Output directory|
+|dir|`cwd`||`string`|Output directory|
 |timeout|`60000`||`int`|Max time for screen capture in milleseconds|
 |format|`pdf`||`string`|Capture format. Supports `pdf`, `png`, `jpeg`|
 |heightBuffer|`0`||`int`|Add additional fixed height to the capture|
