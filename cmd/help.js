@@ -27,4 +27,4 @@ Visit https://github.com/SoleGraphics/sitemap-to-screenshot-cli to learn more.
 
 module.exports = () => {
   console.log(help);
-}
+};
