@@ -33,3 +33,17 @@ sm2ss --url=<URL_TO_SITEMAP>
 |delay|`0`||`int`|Delay between loading the page and capturing the screenshot|
 |waitUntil|`networkidle2`||`string`|Wait until there is only X active network connections|
 |preset|`null`||`string`|Path to a valid `json` file with options. See `example-preset.json`|
+
+## Development and testing
+
+```
+yarn test
+```
+
+```
+yarn lint
+```
+
+```
+yarn lint-fix
+```
