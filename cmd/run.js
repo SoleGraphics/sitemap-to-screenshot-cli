@@ -1,6 +1,7 @@
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 const sitemaps = require('sitemap-stream-parser');
+const { DateTime } = require('luxon');
 const { urlToFilename, urlToDomain } = require('../lib/url');
 
 module.exports = (commandArgs) => {
@@ -32,8 +33,8 @@ module.exports = (commandArgs) => {
   // Holders
   const allUrls = [];
   const url = args['url'];
-  const timestamp = Date.now();
-  const storageDir = `${args['dir']}/${urlToDomain(url)}-${timestamp}`;
+  const folderTime = DateTime.local().toFormat('yyyyMMdd@hhmmss');
+  const storageDir = `${args['dir']}/${urlToDomain(url)}_${folderTime}`;
 
   // Ensure we have a url
   if (!url) {
