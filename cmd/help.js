@@ -9,6 +9,7 @@ Options:
   --format                file format (pdf, png, jpeg)
   --heightBuffer          additional, fixed height to the page
   -h, --help              output usage information
+  --limit                 limit batch size - number of concurrent events
   --preset                path to a valid json file of options
   --timeout               max excution time for each screen capture (milleseconds)
   --url <url>             a valid sitemap.xml url

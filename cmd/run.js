@@ -1,4 +1,5 @@
 const fs = require('fs');
+const pLimit = require('p-limit');
 const puppeteer = require('puppeteer');
 const sitemaps = require('sitemap-stream-parser');
 const { DateTime } = require('luxon');
@@ -17,6 +18,7 @@ module.exports = (commandArgs) => {
     delay: 0, // Delay before screenshot
     waitUntil: 'networkidle2', // How many network connections to wait for
     preset: null, // Optional preset url
+    limit: 20, // Limit concurrency batches
   };
 
   // Allow ingesting a preset .json file
@@ -30,8 +32,12 @@ module.exports = (commandArgs) => {
   // Combine arguments
   const args = { ...defaultArgs, ...commandArgs, ...presetArgs };
 
+  // Set max event listeners based on batch size limits
+  process.setMaxListeners(args.limit);
+
   // Holders
   const allUrls = [];
+  const concurrencyLimit = pLimit(args.limit);
   const sitemapUrl = args.url;
   const folderTime = DateTime.local().toFormat('yyyyMMdd@hhmmss');
   const storageDir = `${args.dir}/${urlToDomain(sitemapUrl)}_${folderTime}`;
@@ -50,12 +56,13 @@ module.exports = (commandArgs) => {
     console.log(`📂 creating output directory "${storageDir}`);
     createDirectory();
 
-    await Promise.all(allUrls.map(async url => createPDF(url))).then((res) => {
-      console.log(`Done. Processed ${res.length} urls.`);
-    });
+    await Promise.all(allUrls.map(url => concurrencyLimit(() => screenshot(url))))
+      .then((res) => {
+        console.log(`Done. Processed ${res.length} urls.`);
+      });
   });
 
-  async function createPDF(url) {
+  async function screenshot(url) {
     const niceName = urlToFilename(url);
     const outputPath = `${storageDir}/${niceName}`;
 
