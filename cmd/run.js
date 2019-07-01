@@ -5,7 +5,7 @@ const sitemaps = require('sitemap-stream-parser');
 const { DateTime } = require('luxon');
 const { urlToFilename, urlToDomain } = require('../lib/url');
 
-module.exports = (commandArgs) => {
+module.exports = commandArgs => {
   // Default arguments
   const defaultArgs = {
     url: false, // URL to sitemap.xml file
@@ -18,7 +18,7 @@ module.exports = (commandArgs) => {
     delay: 0, // Delay before screenshot
     waitUntil: 'networkidle2', // How many network connections to wait for
     preset: null, // Optional preset url
-    limit: 20, // Limit concurrency batches
+    limit: 20 // Limit concurrency batches
   };
 
   // Allow ingesting a preset .json file
@@ -31,16 +31,7 @@ module.exports = (commandArgs) => {
 
   // Combine arguments
   const args = { ...defaultArgs, ...commandArgs, ...presetArgs };
-
-  // Set max event listeners based on batch size limits
-  process.setMaxListeners(args.limit);
-
-  // Holders
-  const allUrls = [];
-  const concurrencyLimit = pLimit(args.limit);
   const sitemapUrl = args.url;
-  const folderTime = DateTime.local().toFormat('yyyyMMdd@hhmmss');
-  const storageDir = `${args.dir}/${urlToDomain(sitemapUrl)}_${folderTime}`;
 
   // Ensure we have a url
   if (!sitemapUrl) {
@@ -48,19 +39,31 @@ module.exports = (commandArgs) => {
     return;
   }
 
-  // Go get the sitemap
-  sitemaps.parseSitemaps([sitemapUrl], (url) => {
-    allUrls.push(url);
-  }, async () => {
-    console.log(`🎬 ${allUrls.length} urls scraped from sitemap. Starting capture...`);
-    console.log(`📂 creating output directory "${storageDir}`);
-    createDirectory();
+  // Set max event listeners based on batch size limits
+  process.setMaxListeners(args.limit);
 
-    await Promise.all(allUrls.map(url => concurrencyLimit(() => screenshot(url))))
-      .then((res) => {
+  // Holders
+  const allUrls = [];
+  const concurrencyLimit = pLimit(args.limit);
+  const folderTime = DateTime.local().toFormat('yyyyMMdd@hhmmss');
+  const storageDir = `${args.dir}/${urlToDomain(sitemapUrl)}_${folderTime}`;
+
+  // Go get the sitemap
+  sitemaps.parseSitemaps(
+    [sitemapUrl],
+    url => {
+      allUrls.push(url);
+    },
+    async () => {
+      console.log(`🎬 ${allUrls.length} urls scraped from sitemap. Starting capture...`);
+      console.log(`📂 creating output directory "${storageDir}`);
+      createDirectory();
+
+      await Promise.all(allUrls.map(url => concurrencyLimit(() => screenshot(url)))).then(res => {
         console.log(`Done. Processed ${res.length} urls.`);
       });
-  });
+    }
+  );
 
   async function screenshot(url) {
     const niceName = urlToFilename(url);
@@ -74,13 +77,13 @@ module.exports = (commandArgs) => {
       // No to the url
       const result = await page.goto(url, {
         waitUntil: args.waitUntil,
-        timeout: args.timeout,
+        timeout: args.timeout
       });
 
       // Set the page size
       await page.setViewport({
         width: args.vw,
-        height: args.vh,
+        height: args.vh
       });
 
       // Optional delay time
@@ -103,19 +106,19 @@ module.exports = (commandArgs) => {
         // Get the height of the page to set the PDF height
         const height = await page.evaluate(
           // eslint-disable-next-line no-undef
-          () => document.documentElement.offsetHeight,
+          () => document.documentElement.offsetHeight
         );
 
         await page.pdf({
           path: `${outputPath}.pdf`,
           height: `${height + args.heightBuffer}px`,
-          printBackground: true,
+          printBackground: true
         });
       } else {
         await page.screenshot({
           path: `${outputPath}.${args.format}`,
           type: args.format,
-          fullPage: true,
+          fullPage: true
         });
       }
     } catch (err) {
