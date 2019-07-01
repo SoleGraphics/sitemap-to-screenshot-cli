@@ -1,14 +1,46 @@
 {
   "name": "sitemap-to-screenshot-cli",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "description": "A little node-based CLI tool for generating screenshots, provided a valid sitemap.xml url",
   "license": "MIT",
+  "homepage": "https://github.com/SoleGraphics/sitemap-to-screenshot-cli",
   "bin": {
-    "generate": "bin/generate.sh"
+    "sm2ss": "bin/generate.sh"
   },
-  "scripts": {},
-  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoleGraphics/sitemap-to-screenshot-cli.git"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "keywords": [
+    "sitemap",
+    "puppeteer",
+    "pdf",
+    "screenshot"
+  ],
+  "preferGlobal": true,
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "lint": "eslint ./**/*.js",
+    "lint-fix": "eslint ./**/*.js --fix"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.18.0",
+    "mocha": "^6.1.4"
+  },
   "dependencies": {
+    "luxon": "^1.16.0",
     "minimist": "^1.2.0",
+    "p-limit": "^2.2.0",
     "puppeteer": "^1.18.1",
     "sitemap-stream-parser": "^1.7.0"
   }
