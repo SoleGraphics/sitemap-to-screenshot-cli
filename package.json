@@ -38,7 +38,7 @@
     "mocha": "^6.1.4"
   },
   "dependencies": {
-    "luxon": "^1.16.0",
+    "luxon": "^1.28.1",
     "minimist": "^1.2.0",
     "p-limit": "^2.2.0",
     "puppeteer": "^1.18.1",
